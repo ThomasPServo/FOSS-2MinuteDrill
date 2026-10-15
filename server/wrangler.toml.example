@@ -1,0 +1,17 @@
+# Copy to wrangler.toml, create the database, and deploy:
+#   npx wrangler d1 create foss-2md-board        # paste the database_id below
+#   npx wrangler d1 execute foss-2md-board --remote --file schema.sql
+#   npx wrangler secret put TOKEN_SALT           # any long random string
+#   npx wrangler deploy
+name = "foss-2md-board"
+main = "worker.js"
+compatibility_date = "2026-01-01"
+
+[vars]
+# the site allowed to call the board (use "*" while testing)
+ALLOW_ORIGIN = "https://example.github.io"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "foss-2md-board"
+database_id = "<your database id>"

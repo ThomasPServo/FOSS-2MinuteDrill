@@ -1,0 +1,15 @@
+{
+  "name": "foss-2minutedrill",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Free and open-source NFL late-game play-calling game built on nflverse and Next Gen Stats data",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "test": "node --test tests/",
+    "serve": "python3 -m http.server 8000 --directory web"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

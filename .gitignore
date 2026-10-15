@@ -1,0 +1,10 @@
+# downloaded source data (rebuilt by the pipeline)
+.cache/
+node_modules/
+__pycache__/
+*.pyc
+.pytest_cache/
+.venv/
+.DS_Store
+test-results/
+playwright-report/
