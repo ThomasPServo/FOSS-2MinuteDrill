@@ -1,0 +1,13 @@
+{
+  "name": "FOSS 2-Minute Drill",
+  "short_name": "2-Min Drill",
+  "description": "Coach a real NFL late-game spot. Every snap is a real play; every call is graded by win probability.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#070b14",
+  "theme_color": "#070b14",
+  "icons": [
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}

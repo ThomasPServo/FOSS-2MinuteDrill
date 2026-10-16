@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>FOSS 2-Minute Drill</title>
+  <meta name="description" content="Coach a real NFL late-game spot: every snap is a real play of your call, every decision graded by win probability. Free and open source.">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#eef1f6" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#070b14" media="(prefers-color-scheme: dark)">
+  <!-- Optional leaderboard (server/worker.js). Empty = no board and no network requests. -->
+  <meta name="board-api" content="">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/game.css">
+  <link rel="stylesheet" href="css/screens.css">
+  <script type="module" src="js/app.js"></script>
+</head>
+<body>
+  <a class="skip" href="#app">Skip to the game</a>
+  <header class="topbar">
+    <a class="brand" href="./" aria-label="FOSS 2-Minute Drill, home">
+      <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><use href="icon.svg#mark"></use></svg>
+      <span class="brand-word"><span class="brand-tag">FOSS</span><span class="brand-name">2-Minute Drill</span></span>
+    </a>
+    <div class="subbar" id="subbar"></div>
+    <nav class="modes" aria-label="Game mode">
+      <a class="mode" href="#daily" data-mode="daily">Daily</a>
+      <a class="mode" href="#survivor" data-mode="survivor">Survivor</a>
+    </nav>
+    <div class="tools">
+      <button class="icon-btn" type="button" data-open="stats" aria-label="Your stats" title="Your stats"></button>
+      <button class="icon-btn" type="button" data-open="help" aria-label="How to play" title="How to play"></button>
+    </div>
+  </header>
+  <main id="app" tabindex="-1">
+    <section class="screen boot" aria-busy="true">
+      <div class="spinner" aria-hidden="true"></div>
+      <p>Loading today's drive…</p>
+    </section>
+    <noscript><p class="noscript">FOSS 2-Minute Drill needs JavaScript to run the simulator in your browser.</p></noscript>
+  </main>
+  <div id="live" class="sr-only" aria-live="polite" aria-atomic="true"></div>
+</body>
+</html>

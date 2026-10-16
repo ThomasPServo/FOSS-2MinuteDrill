@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>How it works · FOSS 2-Minute Drill</title>
+  <meta name="description" content="How FOSS 2-Minute Drill turns your play calls into real NFL plays and grades every decision by simulated win chance.">
+  <meta name="color-scheme" content="light dark">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/pages.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="./" aria-label="FOSS 2-Minute Drill, play">
+      <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><use href="icon.svg#mark"></use></svg>
+      <span class="brand-word"><span class="brand-tag">FOSS</span><span class="brand-name">2-Minute Drill</span></span>
+    </a>
+    <a class="btn btn-primary back-to-game" href="./">Play</a>
+  </header>
+  <main class="page">
+    <div class="page-hero">
+      <span class="eyebrow">How it works</span>
+      <h1>Real plays, simulated stakes</h1>
+      <p>You make the calls; real NFL snaps decide what happens; thousands of simulated finishes decide how good each call was. Here is what runs in your browser.</p>
+    </div>
+
+    <section>
+      <h2>The spots</h2>
+      <p>Every drive starts from a real late-game moment of the 2023–2026 NFL seasons: the real score, clock, down and distance, field position and timeouts, the two real teams and the 22 players who were on the field that week. Daily drives rotate through three kinds of spot: a two-minute drill when you trail, protecting a late lead, and tied games or the end of the first half. Survivor draws random real fourth quarters.</p>
+      <p>The daily drive is picked from a fixed schedule by your local date, so everyone gets the same spot on the same day, and the random draws of the game are seeded from the spot, so the same calls lead to the same plays for everyone.</p>
+    </section>
+
+    <section>
+      <h2>Your call becomes a real play</h2>
+      <p>About 155,000 real NFL snaps from 2022 on are sorted into 26 calls: runs by gap and side, QB sneaks and designed QB runs, short and deep passes by side, screens, play action, rollouts, RPOs, the Hail Mary and four trick plays.</p>
+      <ol class="steps">
+        <li>When you call a play, the engine looks up real snaps of that call from a similar situation: down, distance, field zone, and whether the offense was hurrying, protecting a lead or neither.</li>
+        <li>The draw leans toward better or worse outcomes by the <b>matchup</b> against the defense’s pre-snap look (a blitz is beaten by quick throws and screens, a loaded box by play action and deep shots, a light box by runs) and by the two teams’ recent strength.</li>
+        <li>The chosen snap’s yards, clock time, flags (incomplete, out of bounds, turnover, touchdown, penalty) are applied at your spot. The result card says which real game the snap came from.</li>
+      </ol>
+      <p>The defense shows looks the way NFL defenses do in that situation, and it adapts: lean on one kind of call and it starts showing the looks that stop it. When you are on defense, your call (blitz, load the box, play it soft or base) shapes what the offense gets, and the offense checks into plays that beat it.</p>
+    </section>
+
+    <section>
+      <h2>Clock and rules</h2>
+      <p>The game clock follows NFL rules: it stops on incompletions, scores, changes of possession, timeouts and the two-minute warning, and on plays out of bounds inside the last two minutes of the first half and the last five of the second. Time between snaps comes from real between-snap times for the tempo you pick (no-huddle, huddle or milking the play clock). Kickoffs follow the current kickoff rules; ties at the end of regulation go to overtime under the current overtime rules.</p>
+    </section>
+
+    <section>
+      <h2>How calls are graded</h2>
+      <p>At every decision the engine plays out the rest of the game thousands of times for each option you had, with an average NFL play-caller making the calls for both teams after your choice. Every option faces the same random futures, so the differences mostly come from the options rather than from luck. Options are first simulated 500 times each; the leaders and your choice are then simulated 6,000 more times on fresh draws. Grades are still estimates: a gap of a point or less between two options can be simulation noise.</p>
+      <p>Your grade is the win chance you gave up against the best option:</p>
+      <ul class="grade-key">
+        <li><span class="grade g" aria-hidden="true">✓</span><b>Good</b><span>Within half a point of the best option.</span></li>
+        <li><span class="grade y" aria-hidden="true">≈</span><b>Close</b><span>Up to 2 points of win chance lost.</span></li>
+        <li><span class="grade o" aria-hidden="true">!</span><b>Costly</b><span>2 to 5 points lost.</span></li>
+        <li><span class="grade r" aria-hidden="true">✗</span><b>Big miss</b><span>More than 5 points lost.</span></li>
+      </ul>
+      <p>The grade is about the decision, not the result: a good call can still go wrong on the field, and a poor one can work out.</p>
+    </section>
+
+    <section>
+      <h2>Your daily score</h2>
+      <p>At the end of the day’s drive your decisions are replayed by 4,000 simulated play-callers, from ones who simply follow NFL habits to sharp ones who usually find the best option. Your score is the share of them who gave up more win chance than you did over the same decisions. “Against a typical NFL play-caller” compares your win chance with the average of the options weighted by how often NFL play-callers choose them.</p>
+      <h3>The coach you called it like</h3>
+      <p>Four tendencies are measured against what play-callers would have done in the same spots: how often you throw, how often you go deep, how often you go for it on fourth down and how often you go for two. The nearest real head coach, by his own late-game play calling, is your look-alike; over many days the comparison sharpens.</p>
+    </section>
+
+    <section>
+      <h2>The field</h2>
+      <p>Your end zone is at the bottom and your team always attacks upward. Players are dots, circles on offense and squares on defense, coloured from red to green by a rating from 40 to 99: the player’s percentile at his position from his production over the previous 17 games. Tap one to see his card and top speed.</p>
+      <p>The animation is an illustration of the real outcome, not tracking data: the result is fixed first, then the play is staged to fit it. Players move within measured limits on acceleration, braking and turning for their position, at their own top speeds from Next Gen Stats; the passer, the target, the ball carrier and the tackler follow planned paths, everyone else reacts.</p>
+    </section>
+
+    <p class="page-foot"><a href="about.html">About, data and privacy</a> · <a href="./">Play today’s drive</a></p>
+  </main>
+</body>
+</html>

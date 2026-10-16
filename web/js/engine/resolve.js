@@ -505,6 +505,8 @@ const nameOf = (p, fallback) => (p ? p.short || p.name : fallback);
 const playerRef = (p) => (p ? { id: p.id, name: p.name, short: p.short || p.name, pos: p.pos, num: p.num ?? null, r: p.r ?? null } : null);
 const plural = (n, word) => `${n} ${word}${n === 1 ? '' : 's'}`;
 const yardsText = (g) => (g > 0 ? plural(g, 'yard') : g < 0 ? `loss of ${-g}` : 'no gain');
+// result-card headline for a gain: "+1 yard", "+12 yards", "Loss of 3", "No gain"
+const gainHeadline = (g) => (g > 0 ? `+${plural(g, 'yard')}` : g < 0 ? `Loss of ${-g}` : 'No gain');
 
 /**
  * Build the log entry for a resolved event (live game).
@@ -573,7 +575,7 @@ export function describe(lib, spot, ev, before, after) {
           : p.blocked ? `: blocked${p.retTd ? ' and returned for a touchdown' : ''}`
             : p.retTd ? `: returned for a touchdown by ${opp}`
               : p.kickRec ? `: muffed, recovered by ${abbr}`
-                : p.touchback ? ', touchback' : `, net ${p.net} yards`);
+                : p.touchback ? ', touchback' : `, net ${plural(p.net, 'yard')}`);
       entry.punt = { ...p };
       entry.players = { punter: playerRef(roster.p) };
       entry.anim = { kind: 'punt', fromYl: ev.yl0, recvYl: p.recvYl, net: p.net };
@@ -669,23 +671,23 @@ function describePlay(lib, ev, roster, defRoster, abbr) {
   let text;
   let headline;
   if (o.noPlay) {
-    text = `Flag: ${g >= 0 ? 'penalty on the defense' : `penalty on ${abbr}`}, ${g >= 0 ? '+' : ''}${g} yards${o.auto1 ? ', automatic first down' : ''}`;
+    text = `Flag: ${g >= 0 ? 'penalty on the defense' : `penalty on ${abbr}`}, ${g >= 0 ? '+' : '\u2212'}${plural(Math.abs(g), 'yard')}${o.auto1 ? ', automatic first down' : ''}`;
     headline = 'Flag';
   } else if (sack) {
     text = `${qbName} is sacked by ${dname}: ${yardsText(g)}`;
-    headline = `Sacked, ${g}`;
+    headline = g < 0 ? `Sacked, \u2212${-g}` : 'Sacked, no loss';
   } else if (scramble) {
     text = `${qbName} scrambles: ${yardsText(g)}`;
-    headline = g > 0 ? `+${g} yards` : yardsText(g);
+    headline = gainHeadline(g);
   } else if (isPass && o.inc && !o.tov) {
     text = `${qbName} ${call.say}: incomplete, intended for ${who}`;
     headline = 'Incomplete';
   } else if (isPass) {
     text = `${qbName} ${call.say}${o.tov ? '' : ` to ${who}: ${yardsText(g)}`}`;
-    headline = g > 0 ? `+${g} yards` : yardsText(g);
+    headline = gainHeadline(g);
   } else {
     text = `${who} ${call.say}: ${yardsText(g)}`;
-    headline = g > 0 ? `+${g} yards` : yardsText(g);
+    headline = gainHeadline(g);
   }
   if (o.tov) {
     if (fl & FL.INT) {

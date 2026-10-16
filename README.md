@@ -10,6 +10,11 @@ on public data from [nflverse](https://github.com/nflverse) and
 ads, no analytics and no third-party requests; an optional self-hosted leaderboard is
 included.
 
+<p align="center">
+  <img src="docs/screenshots/desktop.png" alt="The field and the call menu on a desktop browser" width="640">
+  <img src="docs/screenshots/phone.png" alt="A graded snap and the next call on a phone" width="220">
+</p>
+
 ## How it plays
 
 * **The spot.** A real moment from the last minutes of an NFL game (2023–2026 seasons,

@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>About · FOSS 2-Minute Drill</title>
+  <meta name="description" content="FOSS 2-Minute Drill is a free, open-source NFL late-game play-calling game. Data credits, privacy and license.">
+  <meta name="color-scheme" content="light dark">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/pages.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="./" aria-label="FOSS 2-Minute Drill, play">
+      <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><use href="icon.svg#mark"></use></svg>
+      <span class="brand-word"><span class="brand-tag">FOSS</span><span class="brand-name">2-Minute Drill</span></span>
+    </a>
+    <a class="btn btn-primary back-to-game" href="./">Play</a>
+  </header>
+  <main class="page">
+    <div class="page-hero">
+      <span class="eyebrow">About</span>
+      <h1>FOSS 2-Minute Drill</h1>
+      <p>A free and open-source game about late-game play calling. One real NFL spot a day: call every play to the final whistle and see how your decisions compare with NFL play-callers.</p>
+    </div>
+
+    <section>
+      <h2>Open source</h2>
+      <p>The game, the simulator and the data pipeline are published under the MIT license. Everything runs in your browser as plain static files: there is no server-side game logic and no account. Read the code, report a bug or suggest a change at <a href="https://github.com/ThomasPServo/FOSS-2MinuteDrill">github.com/ThomasPServo/FOSS-2MinuteDrill</a>.</p>
+      <p>It is a clean-room take on the idea of a daily two-minute-drill game; none of its code, art or text comes from any other game.</p>
+    </section>
+
+    <section>
+      <h2>Data</h2>
+      <p>All football data comes from public sources, processed by the project’s own pipeline into the files this site loads:</p>
+      <div class="credits">
+        <div><b>nflverse</b>: play-by-play, participation, rosters, player stats, snap counts and schedules<small>CC BY 4.0 · github.com/nflverse</small></div>
+        <div><b>FTN Data charting</b>, distributed by nflverse: play action, screens, RPOs, blitzes, box counts and more<small>CC BY-SA 4.0 · ftndata.com</small></div>
+        <div><b>Next Gen Stats</b>: player top speeds and tracking-derived measures, used only as derived values<small>© NFL · nextgenstats.nfl.com</small></div>
+      </div>
+      <p>Player ratings are the project’s own: a player’s percentile at his position from his recent production. They only colour the dots; the simulation uses team-level strength.</p>
+    </section>
+
+    <section>
+      <h2>Privacy</h2>
+      <p><b>Nothing leaves your browser.</b> There are no analytics, no ads, no cookies and no third-party requests; the fonts are your device’s own. Your games, streak and stats are kept in your browser’s local storage, and you can clear them at any time by clearing this site’s data.</p>
+      <p>If the people running this copy of the site turn on the optional leaderboard, finishing a daily drive or a Survivor run sends the board the date, your score, whether you won, the name you chose (if any) and a random token your browser made up, so one device counts once a day. The board stores only a scrambled form of that token. The default build has no leaderboard and sends nothing.</p>
+    </section>
+
+    <section>
+      <h2>Not affiliated with the NFL</h2>
+      <p>FOSS 2-Minute Drill is a fan-made project. It is not affiliated with, endorsed by or sponsored by the National Football League, its teams or its players. Team and player names identify the real games the spots and plays come from and remain the property of their owners. No team logos are used.</p>
+    </section>
+
+    <p class="page-foot"><a href="how-it-works.html">How it works</a> · <a href="./">Play today’s drive</a></p>
+  </main>
+</body>
+</html>

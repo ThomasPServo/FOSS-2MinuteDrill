@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- FOSS 2-Minute Drill mark: a stopwatch whose last wedge of time is a strip of turf. -->
+  <symbol id="mark" viewBox="0 0 32 32">
+    <rect width="32" height="32" rx="8" fill="#0b1222"/>
+    <rect x="14" y="3.6" width="4" height="3.2" rx="1" fill="#e9eefc"/>
+    <rect x="22.4" y="7.1" width="3" height="2.4" rx="0.8" transform="rotate(42 23.9 8.3)" fill="#e9eefc"/>
+    <circle cx="16" cy="18.2" r="10.2" fill="#18233b" stroke="#e9eefc" stroke-width="2.2"/>
+    <path d="M16 18.2 L16 9.6 A8.6 8.6 0 0 1 23.45 13.9 Z" fill="#2fbf71"/>
+    <path d="M16 9.6 L16 18.2 L23.45 13.9" fill="none" stroke="#0b1222" stroke-width="0.6"/>
+    <circle cx="16" cy="18.2" r="1.7" fill="#e9eefc"/>
+    <path d="M16 18.2 L11.2 22.6" stroke="#e9eefc" stroke-width="2" stroke-linecap="round"/>
+  </symbol>
+  <use href="#mark"/>
+</svg>
