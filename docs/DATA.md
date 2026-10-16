@@ -71,7 +71,7 @@ The call set (26 calls) and how each real play is assigned to one:
 | `pa_short` | pass | FTN `is_play_action` (other) |
 | `rollout` | pass | FTN `is_qb_out_of_pocket` on a called pass that is not a scramble |
 | `deep_l` / `deep_m` / `deep_r` | pass | `pass_length == deep` (air yards 15+) by `pass_location` |
-| `short_l` / `short_m` / `short_r` | pass | other passes by `pass_location`; sacks, scrambles and throwaways with no location go to `short_m` |
+| `short_l` / `short_m` / `short_r` | pass | other passes by `pass_location`; sacks, scrambles and throwaways with no location go to `short_m` (the engine re-pools sacks and scrambles into a shared "pressure" pool that every pass call draws at its real rate, since they happen before a throw has a location) |
 | `qb_sneak` | run | FTN `is_qb_sneak` |
 | `qb_run` | run | designed QB run (rusher is the QB, not a scramble, not a kneel) |
 | `run_out_l` / `run_out_r` | run | `run_gap == end` by side |
