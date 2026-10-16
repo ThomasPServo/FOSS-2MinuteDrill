@@ -1,0 +1,6 @@
+# Data pipeline (python3 -m pipeline.build) and its tests (python3 -m pytest tests/python).
+numpy>=1.26
+pandas>=2.2
+pyarrow>=15
+requests>=2.31
+pytest>=8

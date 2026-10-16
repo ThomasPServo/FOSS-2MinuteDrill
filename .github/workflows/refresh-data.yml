@@ -23,6 +23,13 @@ jobs:
           cache: pip
           cache-dependency-path: pipeline/requirements.txt
       - run: pip install -r pipeline/requirements.txt
+      # Past seasons' Next Gen Stats responses never change: keep them between runs so a
+      # refresh only asks the NGS API for the weeks played since the last one.
+      - uses: actions/cache@v4
+        with:
+          path: .cache/ngs
+          key: ngs-${{ github.run_id }}
+          restore-keys: ngs-
       - name: Build data
         run: python -m pipeline.build --out web/data
       - name: Validate the data contract

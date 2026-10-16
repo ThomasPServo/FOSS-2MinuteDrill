@@ -83,7 +83,8 @@ The call set (26 calls) and how each real play is assigned to one:
 
 Every real snap of a called run or pass (2022 season onward, regular season and playoffs),
 plus post-snap accepted penalties on such plays. Kneels, spikes, pre-snap penalties, kicks
-and aborted snaps are excluded.
+and aborted snaps are excluded, as are offsetting penalties and fake kicks (snaps from punt
+or field-goal formation).
 
 ```json
 {
@@ -104,10 +105,10 @@ and aborted snaps are excluded.
 | `call` | int | index into `calls.json` |
 | `g`, `pid` | int | index into `games`, and nflverse `play_id` (provenance: "this snap happened in ...") |
 | `down`, `ytg`, `yl`, `mode`, `hs`, `margin` | int | situation at the snap (two-point tries: `down` 0, `ytg` = `yl` = 2) |
-| `yds` | int | net yards for the offense from the line of scrimmage, including sack losses and the yardage of an accepted penalty. On a touchdown this equals `yl` (stopped by the end zone). |
-| `dur` | int | play duration in tenths of a second (snap to whistle). Measured where the clock stopped right after the play, otherwise estimated (see pipeline). |
+| `yds` | int | net yards for the offense from the line of scrimmage, including sack losses and the yardage of an accepted penalty. On a touchdown this equals `yl` (stopped by the end zone); on a safety `yl - 100`; otherwise within `[yl - 99, yl - 1]`. |
+| `dur` | int | play duration in tenths of a second (snap to whistle), 20–150. Measured where the clock stopped right after the play, otherwise estimated (see `pipeline/clock.py`). The game clock has whole-second resolution, so values are multiples of 10. |
 | `fl` | int | bit flags, below |
-| `tov` | int | turnovers only: offense-perspective net yards from the line of scrimmage to the spot where the defense takes over at its next snap (`yl_start + yl_new_defense - 100`). 0 otherwise. |
+| `tov` | int | turnovers only: offense-perspective net yards from the line of scrimmage to the spot where the defense takes over at its next snap (`yl_start + yl_new_defense - 100`). On a return touchdown (bit 5) `yl_new_defense` is 0, so `tov = yl - 100`. 0 otherwise. |
 | `epa` | int | nflverse EPA × 100 (used to tilt draws toward better/worse outcomes) |
 | `look` | int | defensive look at the snap: `0` base, `1` blitz (5+ rushers or FTN blitzers ≥ 1), `2` loaded box (8+ in the box), `3` light box (≤ 6 in the box, no blitz) |
 | `air` | int | air yards (passes), 0 otherwise |
@@ -133,6 +134,9 @@ Flag bits (`fl`):
 | 11 | 2048 | no play (penalty wiped out the play; the down is replayed unless bit 1 is set) |
 | 12 | 4096 | first down gained (by yards or penalty) |
 
+Bits 6 and 7 are set only when possession actually changed: an interception or fumble that
+the offense gets back on the same play is an ordinary play.
+
 ## `special.json` — kicking, clock and policy models
 
 ```json
@@ -153,13 +157,17 @@ Flag bits (`fl`):
 }
 ```
 
-* `fg`: logistic make probability. `dist` = `yl + 18`, `dist2 = dist^2 / 100`, `indoor` 0/1,
-  `wind` mph (0 indoors). `p = 1 / (1 + exp(-(coef · x)))`.
+* `fg`: logistic make probability over all attempts (blocked kicks count as misses).
+  `dist` = `yl + 18`, `dist2 = dist^2 / 100`, `indoor` 0/1, `wind` mph (0 indoors).
+  `p = 1 / (1 + exp(-(coef · x)))`. `blocked` is the share of all attempts that were blocked.
 * `punt.cols`: `yl` of the punting team at the snap; `recv_yl` = the receiving team's `yl` at its
   next snap (100 − its distance from its own goal); `fl` bits: 1 blocked, 2 touchback,
   4 return touchdown, 8 punting team recovered (muff/fumble), 16 out of bounds / downed / fair catch.
+  With bit 4 `recv_yl` is 0; with bit 8 it is the recovery spot seen from the receiving side
+  (`100 −` the kicking team's `yl` at its next snap; 100 if the kicking team scored).
 * `kickoff.cols`: `recv_yl` as above; `fl` bits: 2 touchback, 4 return touchdown,
-  8 kicking team recovered, 16 out of bounds. Only seasons under the current kickoff rule.
+  8 kicking team recovered, 16 out of bounds. Only seasons under the current kickoff rule;
+  onside kicks are excluded (see `onside`). Same `recv_yl` conventions as `punt`.
 * `onside.rate`: share of onside kicks the kicking team recovered (2022 onward).
 * `between`: the 5th, 10th, ..., 95th percentiles (19 numbers) of seconds that run off between
   the end of a play and the next snap with the clock running, by tempo.
@@ -198,6 +206,8 @@ Flag bits (`fl`):
   seed so neighbouring days differ in team, season and category.
 * `team` is the side the player coaches (the team with the ball at the start, except q4 spots,
   where it is the trailing team, or the team with the ball if tied).
+* drill/protect/tight spots start at the first snap of a drive (always first down); q4 spots
+  start at the first scrimmage snap of the fourth quarter (any down).
 
 ## `spots/<id>.json`
 
@@ -224,7 +234,10 @@ Flag bits (`fl`):
 ```
 
 * `spread`: points the **home** team is favored by (nflverse `spread_line`).
-* `start.phase`: `snap` (normal), `kickoff` or `pat` if the spot opens on one.
+* `start.phase`: `snap` (normal), `kickoff` or `pat` if the spot opens on one (the current
+  pipeline only produces `snap`).
+* `real.call` is `null` when the spot's own snap is not in the play library (a spike or a
+  pre-snap penalty); `real.drive` is the nflverse `fixed_drive_result` of that drive.
 * `strength`: team EPA per play relative to the league over the 17 games before this one
   (shrunk toward 0). `off_*` positive = better offense; `def_*` is EPA allowed, negative =
   better defense.
@@ -235,6 +248,7 @@ Flag bits (`fl`):
     the 17 games before this one (see `pipeline/ratings.py`).
   * `spd`: top speed in yards per second (Next Gen Stats max speed where available,
     otherwise the position-group typical top speed).
+  * `num` is `null` if the jersey number is unknown.
 * `off`/`def`: the 11 on the field for that team's offensive and defensive snaps in this
   game (the spot's own snap for the team with the ball when participation data exists).
   `subs`: up to 6 extra skill players (RB, WR, TE, FB) for personnel changes.
@@ -255,9 +269,27 @@ Late-game play calling (fourth quarter with ≤ 5:00 left, or ≤ 2:00 before th
 within 16): `pass` share of called runs/passes that were passes; `deep` share of passes with
 15+ air yards; `go` share of fourth-and-5-or-less in opponent territory where they went for
 it; `two` share of touchdowns followed by a two-point try. `league` holds mean/sd of each
-measure across coaches with at least 100 late-game snaps (for z-scores).
+measure across coaches with at least 100 late-game snaps (for z-scores). Details: plays wiped
+out by penalties and two-point tries are not counted; "opponent territory" is `yl < 50`; for
+`two` the score margin is the one before the touchdown. A measure is `null` when the coach
+never faced the situation. `n` is the number of late-game called runs/passes.
 
 ## `meta.json`
 
 Build stamp, seasons covered, counts, sources and licenses, and whether the NGS API was
 reached during the build.
+
+```json
+{"version": 1, "built": "2026-10-16T00:00:00Z",
+ "seasons": {"plays": [2022, 2023, 2024, 2025, 2026], "spots": [2023, 2024, 2025, 2026]},
+ "counts": {"plays": 155000, "games": 1218, "spots": 1100, "daily": 800,
+            "by_category": {"drill": 380, "protect": 200, "tight": 220, "q4": 300}},
+ "sources": [{"name": "...", "url": "...", "license": "CC BY 4.0"}],
+ "ngs_api_reached": true,
+ "ngs_api": {"live_requests": 0, "reached_live": false, "cached_responses": 937,
+             "players_with_speed": 5292, "speed_source": "ngs-api"}}
+```
+
+`ngs_api_reached` is true when NGS API data was used, fetched live in this build or cached
+by an earlier one; `ngs_api.reached_live` says whether a live request succeeded in this
+build. With `speed_source: "position-group defaults"` no NGS speeds were available.
